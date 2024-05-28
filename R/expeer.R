@@ -83,7 +83,7 @@ get_power = function(design, pop_filt) {
         power = metric$target_power)
     }
 
-    power_now = data.table(
+    data.table(
       metric_name = metric$name, metric_type = metric$type,
       baseline_value = baseline_value, target_value = target_value,
       target_alpha = metric$target_alpha, target_power = metric$target_power,
@@ -101,7 +101,7 @@ get_power = function(design, pop_filt) {
 #' @export
 get_stratified_units = function(design, pop_filt) {
   pop_filt = assert_args(design, pop_filt)
-  .GRP = `_randomization_block` = x = NULL
+  .GRP = `_randomization_block` = x = NULL # nolint: object_name_linter
 
   pop_strat = pop_filt[, design$id_name, with = FALSE]
   data.table::setattr(pop_strat, 'id_name', design$id_name)
@@ -148,7 +148,7 @@ get_randomized_units = function(design, pop_filt, num_randomized_units) {
   assert_number(num_randomized_units, lower = 2)
   assert_true(nrow(pop_filt) >= num_randomized_units)
 
-  .N = `_arm_name` = `_randomization_block` = NULL
+  .N = `_arm_name` = `_randomization_block` = NULL # nolint: object_name_linter
   num_units = ceiling(num_randomized_units)
 
   pop_subset = pop_filt[sample.int(.N, num_units)]

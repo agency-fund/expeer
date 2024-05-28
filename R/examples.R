@@ -32,4 +32,5 @@ num_randomized_units =
 
 pop_rand = get_randomized_units(design, pop_filt, num_randomized_units)
 "
-  return(strsplit(ex, split = '\n')[[1L]])}
+  return(strsplit(ex, split = '\n')[[1L]])
+}
