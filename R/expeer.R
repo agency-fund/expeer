@@ -111,7 +111,12 @@ get_stratified_units = function(design, pop_filt) {
     if (!is.numeric(pop_filt[[col]]) || isTRUE(stratum$type == 'categorical')) {
       pop_strat[, (col) := factor(pop_filt[[col]], exclude = NULL)]
     } else {
-      pop_strat[, (col) := cut(pop_filt[[col]], breaks = stratum$num_levels)]
+      quants = stats::quantile(
+        pop_filt[[col]],
+        seq(0, 1, length.out = stratum$num_levels + 1L), na.rm = TRUE)
+      buf = diff(range(pop_filt[[col]])) * 0.001
+      breaks = quants + c(-buf, rep(0, stratum$num_levels - 1L), buf)
+      pop_strat[, (col) := cut(pop_filt[[col]], breaks = breaks)]
     }
     pop_strat[, (col) := as.character(x), env = list(x = col)]
     pop_strat[is.na(x), (col) := 'NA_level', env = list(x = col)]
